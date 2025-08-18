@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Optimal Privacy Budget for DP-FL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* slate-900 */
+            color: #cbd5e1; /* slate-300 */
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #22d3ee, #06b6d4, #0891b2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+        }
+        .scroll-animation {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .scroll-animation.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-sm border-b border-slate-800">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h2 class="text-xl font-bold text-white">DP-FL Research</h2>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#challenge" class="text-slate-300 hover:text-cyan-400 transition-colors">The Challenge</a>
+                <a href="#solution" class="text-slate-300 hover:text-cyan-400 transition-colors">Our Solution</a>
+                <a href="#algorithm" class="text-slate-300 hover:text-cyan-400 transition-colors">The Algorithm</a>
+                <a href="#results" class="text-slate-300 hover:text-cyan-400 transition-colors">Results</a>
+                <!-- <a href="#team" class="text-slate-300 hover:text-cyan-400 transition-colors">Team</a> -->
+            </nav>
+            <a href="https://github.com/fms-faisal/Auto-Optimal-Privacy-Budget-DP-FL" target="_blank" class="hidden md:inline-block bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-cyan-600 transition-colors font-semibold">
+                View on GitHub
+            </a>
+        </div>
+    </header>
+
+    <main class="pt-20">
+        <!-- Hero Section -->
+        <section class="min-h-screen flex items-center bg-grid-slate-800/[0.2] relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-900/80 to-slate-900"></div>
+             <div class="absolute top-0 left-0 h-96 w-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-0 right-0 h-96 w-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse animation-delay-4000"></div>
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-4">
+                    Automating the Optimal Privacy Budget Selection for <span class="gradient-text">Differential Privacy in Federated Learning Environments</span>
+                </h1>
+                <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-8">
+                    An innovative epsilon-aware strategy that dynamically adapts the privacy-utility trade-off, eliminating the need for manual tuning.
+                </p>
+                <div class="flex justify-center space-x-4">
+                    <a href="https://github.com/fms-faisal/Auto-Optimal-Privacy-Budget-DP-FL/blob/main/Automating%20the%20Optimal%20Privacy%20Budget%20%20Selection%20for%20Differential%20Privacy%20in%20Federated%20%20Learning%20Environments%20presentation%20file.pptx" target="_blank" class="bg-cyan-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-cyan-600 transition-transform hover:scale-105">View the Paper</a>
+                    <a href="https://github.com/fms-faisal/Auto-Optimal-Privacy-Budget-DP-FL" target="_blank" class="bg-slate-700 text-white px-6 py-3 rounded-lg font-bold hover:bg-slate-600 transition-transform hover:scale-105">Explore on GitHub</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Challenge Section -->
+        <section id="challenge" class="py-20 scroll-animation">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">The Privacy-Utility Dilemma</h2>
+                    <p class="text-slate-400 mt-2 max-w-2xl mx-auto">The core challenge in Differentially Private Federated Learning (DP-FL) is setting the privacy budget, epsilon (ε).</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="glass-card p-8 rounded-xl">
+                        <h3 class="text-2xl font-bold text-cyan-400 mb-4">Low Epsilon (ε)</h3>
+                        <p class="text-slate-300">Provides strong privacy by adding more noise to the data. However, this high level of noise can significantly reduce the model's accuracy, making it less useful.</p>
+                    </div>
+                    <div class="glass-card p-8 rounded-xl">
+                        <h3 class="text-2xl font-bold text-indigo-400 mb-4">High Epsilon (ε)</h3>
+                        <p class="text-slate-300">Leads to better model accuracy by adding less noise. The trade-off is a weaker privacy guarantee, increasing the risk of exposing sensitive information.</p>
+                    </div>
+                </div>
+                 <div class="text-center mt-12">
+                     <p class="text-lg text-white font-semibold">Finding the perfect balance is critical, but manual tuning is inefficient and rarely optimal.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Solution Section -->
+        <section id="solution" class="py-20 bg-slate-900/50 scroll-animation">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Our Solution: The <span class="gradient-text">Epsilon-Aware Strategy</span></h2>
+                    <p class="text-slate-400 mt-2 max-w-3xl mx-auto">We've developed an adaptive system that automates the selection of the optimal epsilon in each round of federated training. Here’s how it works:</p>
+                </div>
+                <div class="max-w-5xl mx-auto glass-card p-4 md:p-8 rounded-2xl">
+                    <!-- Workflow Diagram Image -->
+                    <img class="rounded-lg" src="https://i.imgur.com/BATjAzL.png" alt="System Workflow Diagram">
+
+                </div>
+            </div>
+        </section>
+        
+        <!-- Algorithm Section -->
+        <section id="algorithm" class="py-20 scroll-animation">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">How It Works: The Algorithm Explained</h2>
+                    <p class="text-slate-400 mt-2 max-w-3xl mx-auto">Our algorithm finds the best epsilon by treating the selection as a mini-optimization problem after each round of federated learning.</p>
+                </div>
+                <div class="max-w-4xl mx-auto space-y-6">
+                    <div class="glass-card p-6 rounded-xl">
+                        <h3 class="text-xl font-bold text-white mb-2"><span class="gradient-text">Step 1:</span> Candidate Evaluation & Proxy Training</h3>
+                        <p class="text-slate-300">After aggregating client updates, the server creates several copies (clones) of the new global model. Each clone is paired with a different candidate epsilon (e.g., 1.0, 2.0, 5.0). The server then trains each clone for a few epochs on a small, public proxy dataset to quickly estimate its performance.</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl">
+                        <h3 class="text-xl font-bold text-white mb-2"><span class="gradient-text">Step 2:</span> Performance Measurement & Normalization</h3>
+                        <p class="text-slate-300">The performance (F1-score) of each trained clone is measured. To make a fair comparison between performance and privacy cost, both the F1-scores and the epsilon values are normalized to a common scale of [0, 1].</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl">
+                        <h3 class="text-xl font-bold text-white mb-2"><span class="gradient-text">Step 3:</span> Weighted Scoring Calculation</h3>
+                        <p class="text-slate-300">A custom score is calculated for each candidate using a weighted formula. This formula is designed to reward high model performance while penalizing high epsilon values (weaker privacy).</p>
+                        <div class="bg-slate-800 p-4 rounded-lg mt-4 text-center">
+                            <code class="text-cyan-300 text-lg font-mono">score = (w1 * Norm_F1) - (w2 * Norm_Epsilon)</code>
+                        </div>
+                        <p class="text-slate-400 text-sm mt-2">Here, `w1` and `w2` are weights that can be tuned to prioritize either model utility or privacy stringency.</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl">
+                        <h3 class="text-xl font-bold text-white mb-2"><span class="gradient-text">Step 4:</span> Selection and Distribution</h3>
+                        <p class="text-slate-300">The candidate epsilon that achieves the highest final score is selected as the optimal choice for the next round. This winning epsilon is then distributed to all clients along with the updated global model, ensuring the system adapts for the next iteration of training.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Results Section -->
+        <section id="results" class="py-20 bg-slate-900/50 scroll-animation">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Key Results</h2>
+                    <p class="text-slate-400 mt-2 max-w-2xl mx-auto">Our experiments demonstrate the effectiveness of the adaptive system.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="glass-card p-8 rounded-xl text-center">
+                        <h3 class="text-2xl font-bold gradient-text mb-2">Dynamic Selection</h3>
+                        <p class="text-slate-300">The optimal epsilon dynamically adapted each round, typically converging between <span class="font-bold text-white">0.5 and 2.0</span>.</p>
+                    </div>
+                    <div class="glass-card p-8 rounded-xl text-center">
+                        <h3 class="text-2xl font-bold gradient-text mb-2">Peak Performance</h3>
+                        <p class="text-slate-300">The system consistently found that <span class="font-bold text-white">ε = 2.0</span> offered the best balance of accuracy and privacy in early rounds.</p>
+                    </div>
+                    <div class="glass-card p-8 rounded-xl text-center">
+                        <h3 class="text-2xl font-bold gradient-text mb-2">Practical Efficiency</h3>
+                        <p class="text-slate-300">The selection process adds a consistent and manageable computational overhead, making it viable for real-world use.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Tech Stack -->
+        <section class="py-20 scroll-animation">
+            <div class="container mx-auto px-6">
+                <h2 class="text-center text-3xl font-bold text-white mb-10">Technology Stack</h2>
+                <div class="flex justify-center items-center gap-8 md:gap-12 flex-wrap">
+                    <!-- PyTorch -->
+                    <div class="text-center">
+                         <svg class="h-16 w-16 mx-auto text-slate-400" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>PyTorch</title><path fill="currentColor" d="M14.99 21.235c-2.039 1.02-4.295 1.04-6.21.055C4.733 19.26 2.15 15.69 2.15 11.59c0-3.53 1.93-6.83 5.09-8.59C9.28 1.98 11.59 1.5 14 1.5c2.41 0 4.72.48 6.76 1.51 3.16 1.76 5.09 5.06 5.09 8.59 0 4.1-2.58 7.67-6.63 9.695a1.5 1.5 0 0 1-2.08-1.23 1.5 1.5 0 0 1 .6-1.42 6.065 6.065 0 0 0 3.1-5.115c0-3.09-2.19-5.78-5.23-5.78-3.04 0-5.23 2.69-5.23 5.78a6.065 6.065 0 0 0 3.1 5.115 1.5 1.5 0 0 1 .6 1.42 1.5 1.5 0 0 1-2.08 1.23zM9 6a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm6 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+                        <p class="mt-2 font-semibold text-slate-300">PyTorch</p>
+                    </div>
+                    <!-- Flower -->
+                     <div class="text-center">
+                         <svg class="h-16 w-16 mx-auto text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M208,80a80.1,80.1,0,0,0-72,44.9A80.1,80.1,0,0,0,80,152a80,80,0,0,0,0-144,80.1,80.1,0,0,0,52.9,72,80.1,80.1,0,0,0,44.9-72A80,80,0,0,0,208,8Zm-80,64a64,64,0,1,1,64-64A64.1,64.1,0,0,1,128,144Z"/></svg>
+                        <p class="mt-2 font-semibold text-slate-300">Flower</p>
+                    </div>
+                    <!-- Opacus -->
+                     <div class="text-center">
+                         <svg class="h-16 w-16 mx-auto text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+                        <p class="mt-2 font-semibold text-slate-300">Opacus</p>
+                    </div>
+                    <!-- Python -->
+                     <div class="text-center">
+                         <svg class="h-16 w-16 mx-auto text-slate-400" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Python</title><path fill="currentColor" d="M23.221 10.245c.22 1.235.333 2.51.333 3.795 0 1.286-.113 2.56-.333 3.777l-2.11-1.22c.11-.61.165-1.235.165-1.87 0-.635-.055-1.26-.165-1.87l2.11-1.207zm-22.775 0L2.556 9.02c-.11.61-.165 1.235-.165 1.87 0 .635.055 1.26.165 1.87l-2.11 1.22C.113 12.785 0 11.51 0 10.227c0-1.286.113-2.56.333-3.795L2.446 7.64l-2.11 1.22zm11.22 6.773c-2.488 0-4.505-2.017-4.505-4.505s2.017-4.505 4.505-4.505c2.488 0 4.505 2.017 4.505 4.505s-2.017 4.505-4.505 4.505zM13.755 0c-1.286 0-2.56.113-3.795.333L8.74 2.443l1.22 2.11c.61-.11 1.235-.165 1.87-.165.635 0 1.26.055 1.87.165l1.22-2.11L13.755.333C12.52 0 11.245 0 10.02 0zm0 24c1.286 0 2.56-.113 3.795-.333l1.22-2.11-1.22-2.11c-.61.11-1.235.165-1.87.165-.635 0-1.26-.055-1.87-.165l-1.22 2.11 1.22 2.11c1.235.22 2.51.333 3.777.333z"/></svg>
+                        <p class="mt-2 font-semibold text-slate-300">Python</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Meet the Team Section
+        <section id="team" class="py-20 scroll-animation">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Meet the Research Team</h2>
+                    <p class="text-slate-400 mt-2">From North South University, Dhaka, Bangladesh</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+                    <!-- Team Member Card -->
+                    <!-- <div class="text-center">
+                        <div class="w-24 h-24 rounded-full bg-slate-700 mx-auto mb-4"></div>
+                        <h4 class="font-bold text-white">Faisal Mahmud</h4>
+                    </div>
+                     <div class="text-center">
+                        <div class="w-24 h-24 rounded-full bg-slate-700 mx-auto mb-4"></div>
+                        <h4 class="font-bold text-white">Dr. Rashedur M. Rahman</h4>
+                    </div>
+                </div>
+            </div>
+        </section> --> 
+        
+        <!-- Citation Section -->
+        <section id="citation" class="py-20 bg-slate-900/50 scroll-animation">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Citation & Resources</h2>
+                <p class="text-slate-400 mb-8">If you use this work in your research, please cite our paper.</p>
+                <div class="max-w-3xl mx-auto bg-slate-800 p-6 rounded-lg text-left mb-8">
+                    <pre><code class="text-slate-300 text-sm whitespace-pre-wrap">The BibTeX entry will be added here once the paper is published.
+}</code></pre>
+                </div>
+                 <div class="flex justify-center space-x-4">
+                    <a href="https://github.com/fms-faisal/Auto-Optimal-Privacy-Budget-DP-FL" target="_blank" class="bg-cyan-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-cyan-600 transition-transform hover:scale-105">View on GitHub</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800">
+        <div class="container mx-auto px-6 py-8 text-center text-slate-400">
+            <p>&copy; 2024 DP-FL Research Team, North South University. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple scroll animation
+        const scrollElements = document.querySelectorAll(".scroll-animation");
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add("visible");
+        };
+
+        const hideScrollElement = (element) => {
+            element.classList.remove("visible");
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.25)) {
+                    displayScrollElement(el);
+                } else {
+                    // Optional: hide element when it's out of view
+                    // hideScrollElement(el);
+                }
+            })
+        }
+
+        window.addEventListener("scroll", () => {
+            handleScrollAnimation();
+        });
+        
+        // Trigger on load
+        handleScrollAnimation();
+    </script>
+
+</body>
+</html>
